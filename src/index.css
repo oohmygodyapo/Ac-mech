@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer utilities {
+  /* AC subtle realistic floating */
+  @keyframes acFloat {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-8px) rotate(0.3deg);
+    }
+  }
+
+  /* Specular gloss beam moving across the AC front panel */
+  @keyframes lightShineAcross {
+    0% {
+      transform: translateX(-160%) skewX(-25deg);
+      opacity: 0;
+    }
+    12% {
+      opacity: 0.75;
+    }
+    30% {
+      transform: translateX(250%) skewX(-25deg);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(250%) skewX(-25deg);
+      opacity: 0;
+    }
+  }
+
+  /* Atmospheric ambient cooling background wave */
+  @keyframes bgWaveMove {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+      opacity: 0.35;
+    }
+    50% {
+      transform: translateY(-14px) scale(1.06);
+      opacity: 0.7;
+    }
+  }
+
+  /* Downward & outward chilled airflow waves */
+  @keyframes flowWave {
+    0% {
+      opacity: 0.05;
+      transform: translateY(0) scaleX(0.85) scaleY(0.9);
+    }
+    20% {
+      opacity: 0.9;
+    }
+    70% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(140px) scaleX(1.4) scaleY(1.5);
+    }
+  }
+
+  /* Floating ice crystal snowflake drift */
+  @keyframes snowDrift {
+    0% {
+      transform: translateY(0) translateX(0) rotate(0deg);
+      opacity: 0;
+    }
+    18% {
+      opacity: 1;
+    }
+    82% {
+      opacity: 0.85;
+    }
+    100% {
+      transform: translateY(165px) translateX(var(--drift-x, 18px)) rotate(220deg);
+      opacity: 0;
+    }
+  }
+
+  /* Internal cross-flow fan drum rotation */
+  @keyframes blowerSpin {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 48px 0;
+    }
+  }
+
+  /* Ambient radial cooling glow pulse */
+  @keyframes coolPulseGlow {
+    0%, 100% {
+      opacity: 0.55;
+      transform: scale(0.98);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+
+  /* Motorized horizontal louver swing */
+  @keyframes louverOscillate {
+    0%, 100% {
+      transform: rotateX(20deg);
+    }
+    50% {
+      transform: rotateX(46deg);
+    }
+  }
+
+  /* Button shimmer sweep */
+  @keyframes btnSweep {
+    0% {
+      left: -130%;
+    }
+    100% {
+      left: 230%;
+    }
+  }
+
+  /* Subtle pulse ring for highlights */
+  @keyframes ringPulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(6, 182, 212, 0);
+    }
+  }
+}
+
+/* Reusable Animation Classes */
+.animate-ac-float {
+  animation: acFloat 6s ease-in-out infinite;
+}
+
+.animate-light-shine {
+  animation: lightShineAcross 6.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-bg-wave {
+  animation: bgWaveMove 8s ease-in-out infinite;
+}
+
+.animate-cool-flow-1 {
+  animation: flowWave 2.3s ease-out infinite;
+}
+
+.animate-cool-flow-2 {
+  animation: flowWave 2.8s ease-out 0.8s infinite;
+}
+
+.animate-cool-flow-3 {
+  animation: flowWave 3.3s ease-out 1.5s infinite;
+}
+
+.animate-ac-blower {
+  animation: blowerSpin 0.28s linear infinite;
+}
+
+.animate-ac-glow {
+  animation: coolPulseGlow 4.5s ease-in-out infinite;
+}
+
+.animate-ac-louver {
+  animation: louverOscillate 5.5s ease-in-out infinite;
+}
+
+.animate-ring-pulse {
+  animation: ringPulse 2.5s infinite;
+}
+
+/* Premium Button Sweep & Interactive Styles */
+.btn-shine-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine-sweep::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  transition: none;
+  pointer-events: none;
+}
+
+.btn-shine-sweep:hover::after {
+  animation: btnSweep 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Smooth Theme & Surface Transitions (targeted to prevent 60fps frame drops on transforms) */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  transition: background-color 0.35s ease, color 0.35s ease;
+  overflow-x: hidden;
+}
+
+header, nav, section, footer, aside, button, a {
+  transition-property: background-color, border-color, color, box-shadow, transform;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(6, 182, 212, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.6);
+}
+
+/* Accessibility: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-ac-float,
+  .animate-light-shine,
+  .animate-bg-wave,
+  .animate-cool-flow-1,
+  .animate-cool-flow-2,
+  .animate-cool-flow-3,
+  .animate-ac-blower,
+  .animate-ac-glow,
+  .animate-ac-louver,
+  .animate-ring-pulse,
+  .btn-shine-sweep::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
